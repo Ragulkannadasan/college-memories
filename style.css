@@ -1,0 +1,357 @@
+:root {
+    --bg-color: #F5F7F9;
+    --card-bg: #FFFFFF;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --blue-primary: #1A73E8;
+    --border-radius: 8px;
+    --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--blue-primary);
+    font-size: 1.5rem;
+}
+
+.close-sidebar {
+    display: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 5px;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.sidebar nav a:hover, .sidebar nav a.active {
+    background-color: rgba(26, 115, 232, 0.1);
+    color: var(--blue-primary);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+    overflow-y: auto;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 28px;
+    color: var(--text-secondary);
+    margin-right: 15px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 10px 15px;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    width: 100%;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.search-icon {
+    color: var(--text-secondary);
+}
+
+/* Breadcrumbs */
+.breadcrumbs-container {
+    margin-bottom: 25px;
+}
+
+.breadcrumbs {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+}
+
+.breadcrumbs li {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+    content: 'chevron_right';
+    font-family: 'Material Icons Round';
+    margin-left: 8px;
+    color: var(--text-secondary);
+    font-size: 20px;
+}
+
+.breadcrumbs a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+    color: var(--blue-primary);
+}
+
+.breadcrumbs .current {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Grid System */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1px solid #eaebed;
+    height: 160px;
+    text-align: center;
+}
+
+.card:hover {
+    box-shadow: var(--hover-shadow);
+    transform: translateY(-2px);
+}
+
+.card .icon-container {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.card .material-icons-round {
+    font-size: 60px;
+}
+
+.card.folder .material-icons-round {
+    color: var(--blue-primary);
+}
+
+.card.video .material-icons-round {
+    color: #EA4335;
+}
+
+.card.image {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border: none;
+}
+
+.card.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card.image .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    padding: 10px;
+    color: white;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.card-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    word-break: break-word;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 40px;
+    font-size: 1.1rem;
+}
+
+/* Lightbox Modal */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox img, .lightbox video {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    outline: none;
+}
+
+.lightbox-controls {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 2010;
+}
+
+.lightbox-controls a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.lightbox-controls .material-icons-round {
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.lightbox-controls .material-icons-round:hover {
+    color: var(--blue-primary);
+    transform: scale(1.1);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100vh;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+
+    .close-sidebar {
+        display: block;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
