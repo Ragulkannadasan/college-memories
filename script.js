@@ -225,26 +225,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- LIGHTBOX & SMART DOWNLOAD LOGIC ----
     
     function openLightbox(item) {
-        lightboxDownload.dataset.url = item.url;
-        lightboxDownload.dataset.filename = item.name;
-
         // Reset displays
         lightboxImg.style.display = 'none';
         lightboxVideo.style.display = 'none';
         lightboxYoutube.style.display = 'none';
-        lightboxDownload.style.display = 'flex'; // Show download by default
+        lightboxDownload.style.display = 'flex';
+
+        lightboxDownload.dataset.filename = item.name;
 
         if (item.type === 'image') {
+            lightboxDownload.dataset.url = item.url;
             lightboxImg.src = item.url;
             lightboxImg.style.display = 'block';
         } 
         else if (item.type === 'video') {
+            lightboxDownload.dataset.url = item.url;
             lightboxVideo.src = item.url;
             lightboxVideo.style.display = 'block';
             lightboxVideo.play();
         }
         else if (item.type === 'youtube') {
-            lightboxDownload.style.display = 'none'; // Hide download button
+            // HYBRID LOGIC: If a downloadUrl exists (GitHub path), show the button
+            if (item.downloadUrl) {
+                lightboxDownload.style.display = 'flex';
+                lightboxDownload.dataset.url = item.downloadUrl;
+            } else {
+                lightboxDownload.style.display = 'none';
+            }
+            
             lightboxYoutube.src = item.url.includes('?') ? item.url + '&autoplay=1' : item.url + '?autoplay=1';
             lightboxYoutube.style.display = 'block';
         }
@@ -265,31 +273,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     lightboxDownload.addEventListener('click', async (e) => {
+        // Prevent the browser from just saving the HTML page
+        e.preventDefault(); 
+        
         const fileUrl = lightboxDownload.dataset.url;
         const fileName = lightboxDownload.dataset.filename;
 
         if (!fileUrl) return;
 
-        // If it's a YouTube link, we can't force a download, 
-        // so we open the video in a new tab instead.
-        if (fileUrl.includes('youtube.com') || fileUrl.includes('youtu.be')) {
-            const watchUrl = fileUrl.replace('/embed/', '/watch?v=');
-            window.open(watchUrl, '_blank');
+        // If it's a local video (data folder) or GitHub path, trigger direct download
+        if (fileUrl.toLowerCase().endsWith('.mp4') || fileUrl.toLowerCase().endsWith('.webm')) {
+            const tempLink = document.createElement('a');
+            tempLink.href = fileUrl;
+            tempLink.setAttribute('download', fileName);
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
             return;
         }
 
-        if (fileUrl.startsWith('http') || fileUrl.toLowerCase().endsWith('.mp4') || fileUrl.toLowerCase().endsWith('.webm')) {
-            let downloadUrl = fileUrl;
-            if (downloadUrl.includes('dropbox.com') && downloadUrl.includes('?raw=1')) {
-                downloadUrl = downloadUrl.replace('?raw=1', '?dl=1');
-            }
-            lightboxDownload.href = downloadUrl;
-            lightboxDownload.download = fileName;
-            lightboxDownload.target = "_blank"; 
-            return; 
-        }
-
-        e.preventDefault(); 
+        // For Photos (Force download to prevent opening in a new tab or saving index.html)
         try {
             const response = await fetch(fileUrl);
             const blob = await response.blob();
@@ -298,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tempLink = document.createElement('a');
             tempLink.style.display = 'none';
             tempLink.href = blobUrl;
-            tempLink.download = fileName;
+            tempLink.setAttribute('download', fileName || 'download');
             
             document.body.appendChild(tempLink);
             tempLink.click();
@@ -307,7 +310,11 @@ document.addEventListener('DOMContentLoaded', () => {
             window.URL.revokeObjectURL(blobUrl);
         } catch (error) {
             console.error("Download failed:", error);
-            alert("Failed to download the file.");
+            // Fallback: try standard download if fetch fails
+            const fallbackLink = document.createElement('a');
+            fallbackLink.href = fileUrl;
+            fallbackLink.setAttribute('download', fileName);
+            fallbackLink.click();
         }
     });
 

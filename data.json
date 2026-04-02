@@ -1,5 +1,5 @@
 [
   { "id": 101, "name": "bca.jpeg", "type": "image", "parentId": null, "url": "data/bca.jpeg" },
-  { "id": 103, "name": "Farewell", "type": "youtube", "parentId": 5, "url": "https://www.youtube.com/embed/W0wQY1Gkvss" }
+  { "id": 103, "name": "Farewell", "type": "youtube", "parentId": 5, "url": "https://www.youtube.com/embed/W0wQY1Gkvss", "downloadUrl": "data/farewell.mp4" }
 
 ]
