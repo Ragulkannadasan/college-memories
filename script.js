@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileGrid = document.getElementById('file-grid');
     const breadcrumbsUI = document.getElementById('breadcrumbs');
     
+    // Lightbox Elements
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxVideo = document.getElementById('lightbox-video');
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxDownload = document.getElementById('lightbox-download');
     const closeBtn = document.getElementById('close-lightbox');
 
+    // Sidebar & Topbar Elements
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     const menuToggle = document.getElementById('menu-toggle');
@@ -20,8 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFolderId = null; 
     let breadcrumbPath = [{ id: null, name: 'Home' }];
 
+    // FETCH DATA FROM JSON FILE
     fetch('data.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.json();
+        })
         .then(data => {
             allFiles = data;
             renderFolderView();
@@ -31,8 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
             fileGrid.innerHTML = `<div class="empty-state">Error loading files. Ensure you are running a local server.</div>`;
         });
 
+    // ---- UI RENDERING LOGIC ----
+
     function renderBreadcrumbs(overrideTitle = null) {
         breadcrumbsUI.innerHTML = '';
+        
         if (overrideTitle) {
             breadcrumbsUI.innerHTML = `<li><span class="current">${overrideTitle}</span></li>`;
             return;
@@ -40,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         breadcrumbPath.forEach((crumb, index) => {
             const li = document.createElement('li');
+            
             if (index === breadcrumbPath.length - 1) {
                 li.innerHTML = `<span class="current">${crumb.name}</span>`;
             } else {
@@ -55,38 +65,46 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderFolderView() {
         renderBreadcrumbs();
         fileGrid.innerHTML = '';
-        const currentItems = allFiles.filter(item => item.parentId === currentFolderId);
         
+        const currentItems = allFiles.filter(item => item.parentId === currentFolderId);
+
         if (currentItems.length === 0) {
             fileGrid.innerHTML = `<div class="empty-state">This folder is empty.</div>`;
             return;
         }
-        
-        currentItems.forEach((item) => fileGrid.appendChild(createCardElement(item)));
+
+        // Pass index for staggered entrance animation
+        currentItems.forEach((item, index) => fileGrid.appendChild(createCardElement(item, index)));
     }
 
     function renderFlatTypeView(fileType1, fileType2, title) {
         renderBreadcrumbs(title);
         fileGrid.innerHTML = '';
+
         const currentItems = allFiles.filter(item => item.type === fileType1 || item.type === fileType2);
-        
+
         if (currentItems.length === 0) {
             fileGrid.innerHTML = `<div class="empty-state">No ${title.toLowerCase()} found.</div>`;
             return;
         }
-        
-        currentItems.forEach((item) => fileGrid.appendChild(createCardElement(item)));
+
+        // Pass index for staggered entrance animation
+        currentItems.forEach((item, index) => fileGrid.appendChild(createCardElement(item, index)));
     }
 
+    // ---- SEARCH LOGIC (FOLDERS ONLY) ----
+    
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();
+        
         if (searchTerm === '') {
             renderFolderView();
             return;
         }
 
-        renderBreadcrumbs(`Search results for "${searchTerm}"`);
+        renderBreadcrumbs(`Search results for folders matching "${searchTerm}"`);
         fileGrid.innerHTML = '';
+
         const searchResults = allFiles.filter(item => 
             item.type === 'folder' && item.name.toLowerCase().includes(searchTerm)
         );
@@ -96,12 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        searchResults.forEach((item) => fileGrid.appendChild(createCardElement(item)));
+        searchResults.forEach((item, index) => fileGrid.appendChild(createCardElement(item, index)));
     });
 
-    function createCardElement(item) {
+    // ---- CARD CREATION (WITH STAGGERED DELAY) ----
+
+    function createCardElement(item, index = 0) {
         const card = document.createElement('div');
         card.classList.add('card', item.type);
+
+        // Calculate staggered delay (e.g., 0s, 0.05s, 0.10s)
+        card.style.animationDelay = `${index * 0.05}s`;
 
         if (item.type === 'folder') {
             card.innerHTML = `
@@ -130,6 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
+    // ---- NAVIGATION LOGIC ----
+
     function openFolder(folder) {
         currentFolderId = folder.id;
         reconstructDirectoryPath(folder.id);
@@ -139,13 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function reconstructDirectoryPath(folderId) {
         const path = [];
         let currentId = folderId;
+
         while (currentId !== null) {
             const folder = allFiles.find(f => f.id === currentId);
             if (folder) {
                 path.unshift({ id: folder.id, name: folder.name });
                 currentId = folder.parentId;
-            } else { break; }
+            } else {
+                break;
+            }
         }
+        
         path.unshift({ id: null, name: 'Home' });
         breadcrumbPath = path;
     }
@@ -157,15 +186,19 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFolderView();
     }
 
+    // ---- SIDEBAR FILTERING ----
+
     sidebarLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            
             searchInput.value = '';
             sidebarLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
             closeMobileSidebar();
 
             const filterType = link.getAttribute('data-filter');
+
             if (filterType === 'all') {
                 currentFolderId = null;
                 breadcrumbPath = [{ id: null, name: 'Home' }];
@@ -178,6 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ---- MOBILE SIDEBAR TOGGLE ----
+    
     function openMobileSidebar() {
         sidebar.classList.add('show');
         sidebarOverlay.classList.add('show');
@@ -192,7 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSidebarBtn.addEventListener('click', closeMobileSidebar);
     sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
+    // ---- LIGHTBOX & SMART DOWNLOAD LOGIC ----
+    
     function openLightbox(item) {
+        // Reset displays
         lightboxImg.style.display = 'none';
         lightboxVideo.style.display = 'none';
         lightboxYoutube.style.display = 'none';
@@ -201,7 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxDownload.dataset.filename = item.name;
 
         if (item.type === 'image') {
-            lightboxDownload.dataset.url = item.url;
+            // Prioritize high-res downloadUrl if it exists, otherwise fallback to compressed url
+            lightboxDownload.dataset.url = item.downloadUrl || item.url;
             lightboxImg.src = item.url;
             lightboxImg.style.display = 'block';
         } 
@@ -212,12 +251,14 @@ document.addEventListener('DOMContentLoaded', () => {
             lightboxVideo.play();
         }
         else if (item.type === 'youtube') {
+            // HYBRID LOGIC: If a downloadUrl exists (GitHub path), show the button
             if (item.downloadUrl) {
                 lightboxDownload.style.display = 'flex';
                 lightboxDownload.dataset.url = item.downloadUrl;
             } else {
                 lightboxDownload.style.display = 'none';
             }
+            
             lightboxYoutube.src = item.url.includes('?') ? item.url + '&autoplay=1' : item.url + '?autoplay=1';
             lightboxYoutube.style.display = 'block';
         }
@@ -227,14 +268,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeLightbox() {
         lightbox.classList.remove('active');
-        lightboxImg.src = '';
-        lightboxVideo.pause();
-        lightboxVideo.src = '';
-        lightboxYoutube.src = ''; 
-        lightboxDownload.dataset.url = ''; 
+        
+        // Slight delay matches the CSS fade-out animation before wiping sources
+        setTimeout(() => {
+            lightboxImg.src = '';
+            lightboxVideo.pause();
+            lightboxVideo.src = '';
+            lightboxYoutube.src = ''; 
+            lightboxDownload.dataset.url = ''; 
+        }, 300);
     }
 
     lightboxDownload.addEventListener('click', async (e) => {
+        // Prevent the browser from trying to navigate or save the HTML page
         e.preventDefault(); 
         
         const fileUrl = lightboxDownload.dataset.url;
@@ -242,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!fileUrl) return;
 
+        // Force direct anchor download for local videos or external video links
         if (fileUrl.toLowerCase().endsWith('.mp4') || fileUrl.toLowerCase().endsWith('.webm')) {
             const tempLink = document.createElement('a');
             tempLink.href = fileUrl;
@@ -252,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Fetch logic for photos to force download instead of opening in a new tab
         try {
             const response = await fetch(fileUrl);
             const blob = await response.blob();
@@ -269,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.URL.revokeObjectURL(blobUrl);
         } catch (error) {
             console.error("Download failed:", error);
+            // Fallback: try standard download if fetch fails (e.g., cross-origin issues)
             const fallbackLink = document.createElement('a');
             fallbackLink.href = fileUrl;
             fallbackLink.setAttribute('download', fileName);
@@ -277,7 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     closeBtn.addEventListener('click', closeLightbox);
+
     lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
     });
 });
