@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fafafa" />
+    <meta name="description" content="A minimal gallery of college memories — The Archive." />
+    <title>The Archive — College Memories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="page">
+    <div id="page-content" class="page-content">
+      <header class="site-header">
+        <div class="container">
+          <h1 class="site-header__title">The Archive</h1>
+          <p class="site-header__subtitle">Moments from four years, collected in one place.</p>
+        </div>
+      </header>
+
+      <nav class="filters container" aria-label="Filter by year">
+        <button type="button" class="filter-btn is-active" data-filter="all">All</button>
+        <button type="button" class="filter-btn" data-filter="year-1">Year 1</button>
+        <button type="button" class="filter-btn" data-filter="year-2">Year 2</button>
+        <button type="button" class="filter-btn" data-filter="year-3">Year 3</button>
+        <button type="button" class="filter-btn" data-filter="year-4">Year 4</button>
+      </nav>
+
+      <main id="site-main" class="container main-content">
+        <p id="gallery-status" class="gallery-status" role="status" aria-live="polite"></p>
+        <div id="gallery" class="gallery"></div>
+      </main>
+    </div>
+
+    <div
+      id="lightbox"
+      class="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Media viewer"
+      hidden
+    >
+      <div class="lightbox__backdrop" data-lightbox-close tabindex="-1"></div>
+      <button type="button" class="lightbox__close" id="lightbox-close" data-lightbox-close aria-label="Close">
+        &times;
+      </button>
+      <div class="lightbox__inner">
+        <img id="lightbox-img" class="lightbox__media" alt="" hidden />
+        <video id="lightbox-video" class="lightbox__media" controls playsinline hidden preload="metadata"></video>
+      </div>
+    </div>
+
+    <script src="assets/js/app.js" defer></script>
+  </body>
+</html>

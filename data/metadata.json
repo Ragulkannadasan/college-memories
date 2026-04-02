@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "First day on campus",
+    "category": "year-1",
+    "type": "image",
+    "src": "https://picsum.photos/seed/college1/1200/800",
+    "thumb": "https://picsum.photos/seed/college1/800/600",
+    "date": "2022-09-01"
+  },
+  {
+    "id": "2",
+    "title": "Winter lab session",
+    "category": "year-2",
+    "type": "image",
+    "src": "https://picsum.photos/seed/college2/1200/800",
+    "thumb": "https://picsum.photos/seed/college2/800/600",
+    "date": "2023-01-18"
+  },
+  {
+    "id": "3",
+    "title": "Club fair afternoon",
+    "category": "year-3",
+    "type": "video",
+    "src": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    "thumb": "https://picsum.photos/seed/college3/800/600",
+    "date": "2024-03-22"
+  },
+  {
+    "id": "4",
+    "title": "Late study in the library",
+    "category": "year-3",
+    "type": "image",
+    "src": "https://picsum.photos/seed/college4/1200/800",
+    "thumb": "https://picsum.photos/seed/college4/800/600",
+    "date": "2024-11-07"
+  },
+  {
+    "id": "5",
+    "title": "Graduation week",
+    "category": "year-4",
+    "type": "image",
+    "src": "https://picsum.photos/seed/college5/1200/800",
+    "thumb": "https://picsum.photos/seed/college5/800/600",
+    "date": "2026-05-15"
+  }
+]
