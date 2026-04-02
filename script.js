@@ -270,6 +270,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!fileUrl) return;
 
+        // If it's a YouTube link, we can't force a download, 
+        // so we open the video in a new tab instead.
+        if (fileUrl.includes('youtube.com') || fileUrl.includes('youtu.be')) {
+            const watchUrl = fileUrl.replace('/embed/', '/watch?v=');
+            window.open(watchUrl, '_blank');
+            return;
+        }
+
         if (fileUrl.startsWith('http') || fileUrl.toLowerCase().endsWith('.mp4') || fileUrl.toLowerCase().endsWith('.webm')) {
             let downloadUrl = fileUrl;
             if (downloadUrl.includes('dropbox.com') && downloadUrl.includes('?raw=1')) {
