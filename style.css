@@ -222,7 +222,8 @@ body {
     color: var(--blue-primary);
 }
 
-.card.video .material-icons-round {
+.card.video .material-icons-round,
+.card.youtube .material-icons-round {
     color: #EA4335;
 }
 
@@ -292,6 +293,17 @@ body {
     outline: none;
 }
 
+/* YouTube iframe sizing */
+.lightbox iframe {
+    width: 800px;
+    height: 450px;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: none;
+}
+
 .lightbox-controls {
     position: absolute;
     top: 20px;
@@ -353,5 +365,9 @@ body {
 
     .grid-container {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    
+    .lightbox iframe {
+        height: 250px;
     }
 }

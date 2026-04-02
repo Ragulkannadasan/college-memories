@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxVideo = document.getElementById('lightbox-video');
+    const lightboxYoutube = document.getElementById('lightbox-youtube');
     const lightboxDownload = document.getElementById('lightbox-download');
     const closeBtn = document.getElementById('close-lightbox');
 
@@ -75,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentItems.forEach(item => fileGrid.appendChild(createCardElement(item)));
     }
 
-    function renderFlatTypeView(fileType, title) {
+    function renderFlatTypeView(fileType1, fileType2, title) {
         renderBreadcrumbs(title);
         fileGrid.innerHTML = '';
 
-        const currentItems = allFiles.filter(item => item.type === fileType);
+        const currentItems = allFiles.filter(item => item.type === fileType1 || item.type === fileType2);
 
         if (currentItems.length === 0) {
             fileGrid.innerHTML = `<div class="empty-state">No ${title.toLowerCase()} found.</div>`;
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             card.addEventListener('click', () => openLightbox(item));
         } 
-        else if (item.type === 'video') {
+        else if (item.type === 'video' || item.type === 'youtube') {
             card.innerHTML = `
                 <div class="icon-container"><span class="material-icons-round">play_circle_filled</span></div>
                 <span class="card-name">${item.name}</span>
@@ -198,9 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 breadcrumbPath = [{ id: null, name: 'Home' }];
                 renderFolderView();
             } else if (filterType === 'image') {
-                renderFlatTypeView('image', 'Photos');
+                renderFlatTypeView('image', null, 'Photos');
             } else if (filterType === 'video') {
-                renderFlatTypeView('video', 'Videos');
+                renderFlatTypeView('video', 'youtube', 'Videos');
             }
         });
     });
@@ -221,60 +222,76 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSidebarBtn.addEventListener('click', closeMobileSidebar);
     sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
-    // ---- LIGHTBOX & FORCED DOWNLOAD LOGIC ----
+    // ---- LIGHTBOX & SMART DOWNLOAD LOGIC ----
     
     function openLightbox(item) {
-        // Store data instead of directly modifying href to prevent the code download bug
         lightboxDownload.dataset.url = item.url;
         lightboxDownload.dataset.filename = item.name;
+
+        // Reset displays
+        lightboxImg.style.display = 'none';
+        lightboxVideo.style.display = 'none';
+        lightboxYoutube.style.display = 'none';
+        lightboxDownload.style.display = 'flex'; // Show download by default
 
         if (item.type === 'image') {
             lightboxImg.src = item.url;
             lightboxImg.style.display = 'block';
-            lightboxVideo.style.display = 'none';
-            lightboxVideo.src = '';
-        } else if (item.type === 'video') {
+        } 
+        else if (item.type === 'video') {
             lightboxVideo.src = item.url;
             lightboxVideo.style.display = 'block';
-            lightboxImg.style.display = 'none';
-            lightboxImg.src = '';
             lightboxVideo.play();
         }
+        else if (item.type === 'youtube') {
+            lightboxDownload.style.display = 'none'; // Hide download button
+            lightboxYoutube.src = item.url.includes('?') ? item.url + '&autoplay=1' : item.url + '?autoplay=1';
+            lightboxYoutube.style.display = 'block';
+        }
+        
         lightbox.classList.add('active');
     }
 
     function closeLightbox() {
         lightbox.classList.remove('active');
+        
+        // Stop media
         lightboxImg.src = '';
         lightboxVideo.pause();
         lightboxVideo.src = '';
+        lightboxYoutube.src = ''; 
+        
         lightboxDownload.dataset.url = ''; 
     }
 
-    // Force Download Media (Fixes HTML code download issue)
     lightboxDownload.addEventListener('click', async (e) => {
-        e.preventDefault(); // Stop default browser saving behavior
-        
         const fileUrl = lightboxDownload.dataset.url;
         const fileName = lightboxDownload.dataset.filename;
 
         if (!fileUrl) return;
 
+        if (fileUrl.startsWith('http') || fileUrl.toLowerCase().endsWith('.mp4') || fileUrl.toLowerCase().endsWith('.webm')) {
+            let downloadUrl = fileUrl;
+            if (downloadUrl.includes('dropbox.com') && downloadUrl.includes('?raw=1')) {
+                downloadUrl = downloadUrl.replace('?raw=1', '?dl=1');
+            }
+            lightboxDownload.href = downloadUrl;
+            lightboxDownload.download = fileName;
+            lightboxDownload.target = "_blank"; 
+            return; 
+        }
+
+        e.preventDefault(); 
         try {
-            // Fetch the media file
             const response = await fetch(fileUrl);
             const blob = await response.blob();
-            
-            // Create a temporary object URL
             const blobUrl = window.URL.createObjectURL(blob);
             
-            // Create an invisible anchor to force the file download
             const tempLink = document.createElement('a');
             tempLink.style.display = 'none';
             tempLink.href = blobUrl;
             tempLink.download = fileName;
             
-            // Append, click, and clean up
             document.body.appendChild(tempLink);
             tempLink.click();
             document.body.removeChild(tempLink);
