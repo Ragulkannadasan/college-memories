@@ -343,15 +343,13 @@ body {
 }
 
 /* --- Mobile Responsiveness --- */
+/* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
     .menu-toggle { 
-        display: block; /* Shows the hamburger menu only on small screens */
+        display: block; 
     }
     .close-sidebar { 
-        display: block; 
-        color: var(--sidebar-text); 
-        cursor: pointer; 
-        font-size: 28px; 
+        display: block; /* Shows the X on mobile phones */
     }
     
     .sidebar {
@@ -366,7 +364,4 @@ body {
     .sidebar-overlay.show { display: block; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); z-index: 999; }
     .main-content { padding: 20px; }
     .lightbox iframe { height: 250px; }
-
-    /* Add this anywhere in the main CSS before the mobile section */
-
 }
