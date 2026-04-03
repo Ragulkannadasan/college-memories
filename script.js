@@ -248,6 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- LIGHTBOX & SMART DOWNLOAD LOGIC ----
     
     function openLightbox(item) {
+        console.log('=== LIGHTBOX DEBUG ===');
+        console.log('Opening lightbox for item:', item.name, 'Type:', item.type);
+        console.log('Item data:', item);
+        
         // Reset displays
         lightboxImg.style.display = 'none';
         lightboxVideo.style.display = 'none';
@@ -316,10 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const fileUrl = lightboxDownload.dataset.url;
         const fileName = lightboxDownload.dataset.filename;
 
+        console.log('=== DOWNLOAD DEBUG ===');
         console.log('Download clicked for:', fileName, 'URL:', fileUrl);
+        console.log('Button display style:', lightboxDownload.style.display);
+        console.log('Dataset URL:', lightboxDownload.dataset.url);
+        console.log('Dataset filename:', lightboxDownload.dataset.filename);
 
         if (!fileUrl) {
-            console.error('No download URL found!');
+            console.error('No download URL found! This should not happen.');
             return;
         }
 
