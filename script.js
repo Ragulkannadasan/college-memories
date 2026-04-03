@@ -322,21 +322,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Use fetch + blob for all media files to ensure full content is downloaded
         try {
+            // Add timeout to prevent hanging
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+            
             const response = await fetch(fileUrl, {
                 method: 'GET',
                 mode: 'cors',
-                cache: 'no-cache'
+                cache: 'no-cache',
+                headers: {
+                    'Accept': '*/*'
+                },
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
             
             if (!response.ok) {
                 throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
             }
+            
+            // Check content length header
+            const contentLength = response.headers.get('content-length');
+            console.log(`Expected file size: ${contentLength} bytes`);
             
             const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
             
             // Log file size for debugging
             console.log(`Downloaded file: ${fileName}, size: ${blob.size} bytes`);
+            
+            // Verify the blob size matches expected content length
+            if (contentLength && parseInt(contentLength) !== blob.size) {
+                console.warn(`Size mismatch! Expected: ${contentLength}, Got: ${blob.size}`);
+            }
             
             const tempLink = document.createElement('a');
             tempLink.style.display = 'none';
@@ -353,8 +372,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error("Download failed:", error);
             console.error("Attempted URL:", fileUrl);
-            showNotification('Download failed! Check console.');
-            setTimeout(hideNotification, 2000);
+            
+            if (error.name === 'AbortError') {
+                showNotification('Download timed out! Try again.');
+            } else {
+                showNotification('Download failed! Check console.');
+            }
+            
+            setTimeout(hideNotification, 3000);
             // Fallback: try standard download if fetch fails (e.g., cross-origin issues)
             const fallbackLink = document.createElement('a');
             fallbackLink.href = fileUrl;
