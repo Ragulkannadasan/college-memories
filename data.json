@@ -3,6 +3,6 @@
   { "id": 102, "name": "CS", "type": "image", "parentId": null, "url": "data/compressed/cs_compressed.jpeg", "downloadUrl": "data/raw/cs.jpeg" },
   { "id": 103, "name": "AI,DS,Cyber,IT", "type": "image", "parentId": null, "url": "data/compressed/ai,ds,cyber,it_compressed.jpeg", "downloadUrl": "data/raw/ai.jpeg" },
   { "id": 104, "name": "Farewell AV 1", "type": "youtube", "parentId": 5, "url": "https://www.youtube.com/embed/W0wQY1Gkvss", "downloadUrl": "https://drive.google.com/uc?export=download&id=1tnjVSozR5VubpeWW6jpDFRrzfXvyGnDy" },
-  { "id": 105, "name": "Farewell AV 2", "type": "youtube", "parentId": 5, "url": "https://www.youtube.com/embed/W0wQY1Gkvss", "downloadUrl": "https://drive.google.com/file/d/1vfwht5xx-uDstPMcVsHbyxnmnW1ggKY1/view?usp=sharing" }
+  { "id": 105, "name": "Farewell AV 2", "type": "youtube", "parentId": 5, "url": "https://www.youtube.com/embed/ddxBMqqEY1E", "downloadUrl": "https://drive.google.com/file/d/1vfwht5xx-uDstPMcVsHbyxnmnW1ggKY1/view?usp=sharing" }
 
 ]
