@@ -279,6 +279,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     }
 
+    const notification = document.getElementById('notification');
+    const notificationText = document.getElementById('notification-text');
+
+    function showNotification(message = 'Processing...') {
+        notificationText.textContent = message;
+        notification.classList.add('show');
+    }
+
+    function hideNotification() {
+        notification.classList.remove('show');
+    }
+
     lightboxDownload.addEventListener('click', async (e) => {
         // Prevent the browser from trying to navigate or save the HTML page
         e.preventDefault(); 
@@ -288,18 +300,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!fileUrl) return;
 
-        // Force direct anchor download for local videos or external video links
-        if (fileUrl.toLowerCase().endsWith('.mp4') || fileUrl.toLowerCase().endsWith('.webm')) {
-            const tempLink = document.createElement('a');
-            tempLink.href = fileUrl;
-            tempLink.setAttribute('download', fileName);
-            document.body.appendChild(tempLink);
-            tempLink.click();
-            document.body.removeChild(tempLink);
-            return;
-        }
+        showNotification('Processing...');
 
-        // Fetch logic for photos to force download instead of opening in a new tab
+        // Use fetch + blob for all media files to ensure full content is downloaded
         try {
             const response = await fetch(fileUrl);
             const blob = await response.blob();
@@ -315,8 +318,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.removeChild(tempLink);
             
             window.URL.revokeObjectURL(blobUrl);
+            showNotification('Download complete!');
+            setTimeout(hideNotification, 1500);
         } catch (error) {
             console.error("Download failed:", error);
+            showNotification('Download failed!');
+            setTimeout(hideNotification, 2000);
             // Fallback: try standard download if fetch fails (e.g., cross-origin issues)
             const fallbackLink = document.createElement('a');
             fallbackLink.href = fileUrl;
