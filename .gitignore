@@ -1,0 +1,10 @@
+# Node.js Dependencies
+node_modules/
+package-lock.json
+
+# Local Uploads Directory (Keep workspace clean)
+uploads/
+
+# OS Generated Files
+.DS_Store
+Thumbs.db

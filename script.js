@@ -23,6 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let breadcrumbPath = [{ id: null, name: 'Home' }];
     let activeFilter = 'all'; // all | image | video
 
+    // ---- PAGINATION STATE ----
+    let currentViewDataset = [];
+    let currentPage = 1;
+    const itemsPerPage = 50;
+    let observer = null;
+    let sentinel = null;
+
     // ---- UTILITY FUNCTION TO CONVERT RELATIVE PATHS TO ABSOLUTE URLs ----
     function getAbsoluteUrl(url) {
         // If it's already an absolute URL (http/https), return as-is
@@ -114,37 +121,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function renderFolderView() {
-        renderBreadcrumbs();
-        fileGrid.innerHTML = '';
+    function initInfiniteScroll() {
+        if (observer) observer.disconnect();
         
-        const currentItems = allFiles.filter(item => item.parentId === currentFolderId);
+        observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                currentPage++;
+                renderChunk();
+            }
+        }, { rootMargin: "100px" });
+    }
 
-        if (currentItems.length === 0) {
-            fileGrid.innerHTML = `<div class="empty-state">This folder is empty.</div>`;
+    function renderChunk() {
+        // Calculate slice dynamically
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const chunk = currentViewDataset.slice(startIndex, endIndex);
+
+        if (chunk.length === 0) return;
+
+        // Push items, detach sentinel to bring it down
+        if (sentinel && sentinel.parentNode) {
+            sentinel.parentNode.removeChild(sentinel);
+        }
+
+        chunk.forEach((item, index) => {
+            // Keep staggered animation delay fast for chunks
+            fileGrid.appendChild(createCardElement(item, index % itemsPerPage));
+        });
+
+        // Add sentinel back to the bottom if there is still data to load
+        if (endIndex < currentViewDataset.length) {
+            if (!sentinel) {
+                sentinel = document.createElement('div');
+                sentinel.className = 'scroll-sentinel';
+                sentinel.style.width = '100%';
+                sentinel.style.height = '20px';
+                sentinel.style.gridColumn = '1 / -1';
+            }
+            fileGrid.appendChild(sentinel);
+            observer.observe(sentinel);
+        }
+    }
+
+    function resetGridState(newDataset) {
+        currentViewDataset = newDataset;
+        currentPage = 1;
+        fileGrid.innerHTML = '';
+        initInfiniteScroll();
+
+        if (currentViewDataset.length === 0) {
+            fileGrid.innerHTML = `<div class="empty-state">Nothing found.</div>`;
             return;
         }
 
-        // Pass index for staggered entrance animation
-        currentItems.forEach((item, index) => fileGrid.appendChild(createCardElement(item, index)));
+        renderChunk();
+    }
+
+    function renderFolderView() {
+        renderBreadcrumbs();
+        resetGridState(allFiles.filter(item => item.parentId === currentFolderId));
     }
 
     function renderFlatTypeView(fileType1, fileType2, title) {
         renderBreadcrumbs(title);
-        fileGrid.innerHTML = '';
-
-        const currentItems = allFiles.filter(item => item.type === fileType1 || item.type === fileType2);
-
-        if (currentItems.length === 0) {
-            fileGrid.innerHTML = `<div class="empty-state">No ${title.toLowerCase()} found.</div>`;
-            return;
-        }
-
-        // Pass index for staggered entrance animation
-        currentItems.forEach((item, index) => fileGrid.appendChild(createCardElement(item, index)));
+        resetGridState(allFiles.filter(item => item.type === fileType1 || item.type === fileType2));
     }
 
-    // ---- SEARCH LOGIC (FOLDERS ONLY) ----
+    // ---- SEARCH LOGIC ----
     
     searchInput.addEventListener('input', (e) => {
         const searchTerm = normalizeText(e.target.value);
@@ -156,16 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const tokens = searchTerm.split(/\s+/).filter(Boolean);
         renderBreadcrumbs(`Search results for "${searchTerm}"`);
-        fileGrid.innerHTML = '';
 
         const searchResults = currentViewItems().filter((item) => itemMatchesQuery(item, tokens));
-
-        if (searchResults.length === 0) {
-            fileGrid.innerHTML = `<div class="empty-state">No results match "${searchTerm}".</div>`;
-            return;
-        }
-
-        searchResults.forEach((item, index) => fileGrid.appendChild(createCardElement(item, index)));
+        resetGridState(searchResults);
     });
 
     // ---- CARD CREATION (WITH STAGGERED DELAY) ----
@@ -189,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
         else if (item.type === 'image') {
             card.innerHTML = `
-                <img src="${item.url}" alt="${item.name}">
+                <img src="${item.url}" alt="${item.name}" loading="lazy">
                 <div class="overlay">${item.name}</div>
             `;
             card.addEventListener('click', () => openLightbox(item));

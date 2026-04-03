@@ -1,0 +1,23 @@
+{
+  "name": "college-memories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "add-media.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ragulkannadasan/college-memories.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ragulkannadasan/college-memories/issues"
+  },
+  "homepage": "https://github.com/Ragulkannadasan/college-memories#readme",
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}
