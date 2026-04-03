@@ -22,6 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFolderId = null; 
     let breadcrumbPath = [{ id: null, name: 'Home' }];
 
+    // ---- UTILITY FUNCTION TO CONVERT RELATIVE PATHS TO ABSOLUTE URLs ----
+    function getAbsoluteUrl(url) {
+        // If it's already an absolute URL (http/https), return as-is
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url;
+        }
+        
+        // Get the directory of the current page (remove filename if present)
+        let pathname = window.location.pathname;
+        if (!pathname.endsWith('/')) {
+            pathname = pathname.substring(0, pathname.lastIndexOf('/')) + '/';
+        }
+        
+        // Convert relative path to absolute URL
+        const baseUrl = window.location.protocol + '//' + window.location.host + pathname;
+        return baseUrl + url;
+    }
+
     // FETCH DATA FROM JSON FILE
     fetch('data.json')
         .then(response => {
@@ -240,12 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (item.type === 'image') {
             // Prioritize high-res downloadUrl if it exists, otherwise fallback to compressed url
-            lightboxDownload.dataset.url = item.downloadUrl || item.url;
+            lightboxDownload.dataset.url = getAbsoluteUrl(item.downloadUrl || item.url);
             lightboxImg.src = item.url;
             lightboxImg.style.display = 'block';
         } 
         else if (item.type === 'video') {
-            lightboxDownload.dataset.url = item.url;
+            lightboxDownload.dataset.url = getAbsoluteUrl(item.url);
             lightboxVideo.src = item.url;
             lightboxVideo.style.display = 'block';
             lightboxVideo.play();
@@ -254,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // HYBRID LOGIC: If a downloadUrl exists (GitHub path), show the button
             if (item.downloadUrl) {
                 lightboxDownload.style.display = 'flex';
-                lightboxDownload.dataset.url = item.downloadUrl;
+                lightboxDownload.dataset.url = getAbsoluteUrl(item.downloadUrl);
             } else {
                 lightboxDownload.style.display = 'none';
             }
@@ -304,9 +322,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Use fetch + blob for all media files to ensure full content is downloaded
         try {
-            const response = await fetch(fileUrl);
+            const response = await fetch(fileUrl, {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'no-cache'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+            }
+            
             const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
+            
+            // Log file size for debugging
+            console.log(`Downloaded file: ${fileName}, size: ${blob.size} bytes`);
             
             const tempLink = document.createElement('a');
             tempLink.style.display = 'none';
@@ -322,7 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(hideNotification, 1500);
         } catch (error) {
             console.error("Download failed:", error);
-            showNotification('Download failed!');
+            console.error("Attempted URL:", fileUrl);
+            showNotification('Download failed! Check console.');
             setTimeout(hideNotification, 2000);
             // Fallback: try standard download if fetch fails (e.g., cross-origin issues)
             const fallbackLink = document.createElement('a');
