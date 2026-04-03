@@ -316,7 +316,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const fileUrl = lightboxDownload.dataset.url;
         const fileName = lightboxDownload.dataset.filename;
 
-        if (!fileUrl) return;
+        console.log('Download clicked for:', fileName, 'URL:', fileUrl);
+
+        if (!fileUrl) {
+            console.error('No download URL found!');
+            return;
+        }
 
         showNotification('Processing...');
 
