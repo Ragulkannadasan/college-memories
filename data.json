@@ -5,7 +5,8 @@
     "type": "youtube",
     "parentId": 5,
     "url": "https://www.youtube.com/embed/W0wQY1Gkvss",
-    "downloadUrl": "https://drive.google.com/uc?export=download&id=1tnjVSozR5VubpeWW6jpDFRrzfXvyGnDy"
+    "downloadUrl": "https://drive.google.com/uc?export=download&id=1tnjVSozR5VubpeWW6jpDFRrzfXvyGnDy",
+    "tags": ["farewell", "av", "video"]
   },
   {
     "id": 105,
@@ -13,7 +14,8 @@
     "type": "youtube",
     "parentId": 5,
     "url": "https://www.youtube.com/embed/ddxBMqqEY1E",
-    "downloadUrl": "https://drive.google.com/uc?export=download&id=1vfwht5xx-uDstPMcVsHbyxnmnW1ggKY1"
+    "downloadUrl": "https://drive.google.com/uc?export=download&id=1vfwht5xx-uDstPMcVsHbyxnmnW1ggKY1",
+    "tags": ["farewell", "av", "video"]
   },
   {
     "id": 1001,
@@ -2077,7 +2079,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0001.mp4",
-    "downloadUrl": "./data/vid_0001.mp4"
+    "downloadUrl": "./data/vid_0001.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2002,
@@ -2085,7 +2088,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0002.mp4",
-    "downloadUrl": "./data/vid_0002.mp4"
+    "downloadUrl": "./data/vid_0002.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2003,
@@ -2093,7 +2097,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0003.mp4",
-    "downloadUrl": "./data/vid_0003.mp4"
+    "downloadUrl": "./data/vid_0003.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2004,
@@ -2101,7 +2106,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0004.mp4",
-    "downloadUrl": "./data/vid_0004.mp4"
+    "downloadUrl": "./data/vid_0004.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2005,
@@ -2109,7 +2115,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0005.mp4",
-    "downloadUrl": "./data/vid_0005.mp4"
+    "downloadUrl": "./data/vid_0005.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2006,
@@ -2117,7 +2124,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0006.mp4",
-    "downloadUrl": "./data/vid_0006.mp4"
+    "downloadUrl": "./data/vid_0006.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2007,
@@ -2125,7 +2133,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0007.mp4",
-    "downloadUrl": "./data/vid_0007.mp4"
+    "downloadUrl": "./data/vid_0007.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2008,
@@ -2133,7 +2142,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0008.mp4",
-    "downloadUrl": "./data/vid_0008.mp4"
+    "downloadUrl": "./data/vid_0008.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2009,
@@ -2141,7 +2151,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0009.mp4",
-    "downloadUrl": "./data/vid_0009.mp4"
+    "downloadUrl": "./data/vid_0009.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2010,
@@ -2149,7 +2160,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0010.mp4",
-    "downloadUrl": "./data/vid_0010.mp4"
+    "downloadUrl": "./data/vid_0010.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2011,
@@ -2157,7 +2169,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0011.mp4",
-    "downloadUrl": "./data/vid_0011.mp4"
+    "downloadUrl": "./data/vid_0011.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2012,
@@ -2165,7 +2178,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0012.mp4",
-    "downloadUrl": "./data/vid_0012.mp4"
+    "downloadUrl": "./data/vid_0012.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2013,
@@ -2173,7 +2187,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0013.mp4",
-    "downloadUrl": "./data/vid_0013.mp4"
+    "downloadUrl": "./data/vid_0013.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2014,
@@ -2181,7 +2196,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0014.mp4",
-    "downloadUrl": "./data/vid_0014.mp4"
+    "downloadUrl": "./data/vid_0014.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2015,
@@ -2189,7 +2205,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0015.mp4",
-    "downloadUrl": "./data/vid_0015.mp4"
+    "downloadUrl": "./data/vid_0015.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2016,
@@ -2197,7 +2214,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0016.mp4",
-    "downloadUrl": "./data/vid_0016.mp4"
+    "downloadUrl": "./data/vid_0016.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2017,
@@ -2205,7 +2223,8 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0017.mp4",
-    "downloadUrl": "./data/vid_0017.mp4"
+    "downloadUrl": "./data/vid_0017.mp4",
+    "tags": ["video"]
   },
   {
     "id": 2018,
@@ -2213,6 +2232,7 @@
     "type": "video",
     "parentId": null,
     "url": "./data/vid_0018.mp4",
-    "downloadUrl": "./data/vid_0018.mp4"
+    "downloadUrl": "./data/vid_0018.mp4",
+    "tags": ["video"]
   }
 ]

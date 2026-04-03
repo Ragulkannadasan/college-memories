@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allFiles = []; 
     let currentFolderId = null; 
     let breadcrumbPath = [{ id: null, name: 'Home' }];
+    let activeFilter = 'all'; // all | image | video
 
     // ---- UTILITY FUNCTION TO CONVERT RELATIVE PATHS TO ABSOLUTE URLs ----
     function getAbsoluteUrl(url) {
@@ -40,6 +41,39 @@ document.addEventListener('DOMContentLoaded', () => {
         return baseUrl + url;
     }
 
+    // ---- TAGS + SEARCH HELPERS ----
+    function normalizeText(value) {
+        return (value || '').toString().toLowerCase().trim();
+    }
+
+    function getItemTags(item) {
+        if (!item || !Array.isArray(item.tags)) return [];
+        return item.tags.map((t) => normalizeText(t)).filter(Boolean);
+    }
+
+    function itemMatchesQuery(item, tokens) {
+        if (!tokens.length) return true;
+        const haystack = normalizeText(item?.name);
+        const tags = getItemTags(item);
+        return tokens.every((tok) => haystack.includes(tok) || tags.some((t) => t.includes(tok)));
+    }
+
+    function currentViewItems() {
+        if (activeFilter === 'image') {
+            return allFiles.filter((item) => item.type === 'image');
+        }
+        if (activeFilter === 'video') {
+            return allFiles.filter((item) => item.type === 'video' || item.type === 'youtube');
+        }
+        return allFiles.filter((item) => item.parentId === currentFolderId);
+    }
+
+    function renderCurrentView() {
+        if (activeFilter === 'all') return renderFolderView();
+        if (activeFilter === 'image') return renderFlatTypeView('image', null, 'Photos');
+        if (activeFilter === 'video') return renderFlatTypeView('video', 'youtube', 'Videos');
+    }
+
     // FETCH DATA FROM JSON FILE
     fetch('data.json')
         .then(response => {
@@ -48,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             allFiles = data;
-            renderFolderView();
+            renderCurrentView();
         })
         .catch(error => {
             console.error("Error loading data:", error);
@@ -113,22 +147,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- SEARCH LOGIC (FOLDERS ONLY) ----
     
     searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase().trim();
+        const searchTerm = normalizeText(e.target.value);
         
         if (searchTerm === '') {
-            renderFolderView();
+            renderCurrentView();
             return;
         }
 
-        renderBreadcrumbs(`Search results for folders matching "${searchTerm}"`);
+        const tokens = searchTerm.split(/\s+/).filter(Boolean);
+        renderBreadcrumbs(`Search results for "${searchTerm}"`);
         fileGrid.innerHTML = '';
 
-        const searchResults = allFiles.filter(item => 
-            item.type === 'folder' && item.name.toLowerCase().includes(searchTerm)
-        );
+        const searchResults = currentViewItems().filter((item) => itemMatchesQuery(item, tokens));
 
         if (searchResults.length === 0) {
-            fileGrid.innerHTML = `<div class="empty-state">No folders match "${searchTerm}".</div>`;
+            fileGrid.innerHTML = `<div class="empty-state">No results match "${searchTerm}".</div>`;
             return;
         }
 
@@ -218,12 +251,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const filterType = link.getAttribute('data-filter');
 
             if (filterType === 'all') {
+                activeFilter = 'all';
                 currentFolderId = null;
                 breadcrumbPath = [{ id: null, name: 'Home' }];
                 renderFolderView();
             } else if (filterType === 'image') {
+                activeFilter = 'image';
                 renderFlatTypeView('image', null, 'Photos');
             } else if (filterType === 'video') {
+                activeFilter = 'video';
                 renderFlatTypeView('video', 'youtube', 'Videos');
             }
         });
