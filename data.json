@@ -451,22 +451,6 @@
     "downloadUrl": "./data/img_0227.jpeg"
   },
   {
-    "id": 1032,
-    "name": "img_0226.jpeg",
-    "type": "image",
-    "parentId": null,
-    "url": "./data/img_0226.jpeg",
-    "downloadUrl": "./data/img_0226.jpeg"
-  },
-  {
-    "id": 1033,
-    "name": "img_0225.jpeg",
-    "type": "image",
-    "parentId": null,
-    "url": "./data/img_0225.jpeg",
-    "downloadUrl": "./data/img_0225.jpeg"
-  },
-  {
     "id": 1034,
     "name": "img_0224.jpeg",
     "type": "image",
