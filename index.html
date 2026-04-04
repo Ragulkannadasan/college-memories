@@ -30,7 +30,6 @@
         <main class="main-content">
             <header class="topbar">
                 <span class="material-icons-round menu-toggle" id="menu-toggle">menu</span>
-                
                 <div class="search-bar">
                     <span class="material-icons-round search-icon">search</span>
                     <input type="text" id="search-input" placeholder="Search by name or tags...">
@@ -39,7 +38,30 @@
 
             <div class="breadcrumbs-container">
                 <ul id="breadcrumbs" class="breadcrumbs">
-                    </ul>
+                </ul>
+            </div>
+
+            <div class="controls-bar">
+                <div class="control-group">
+                    <span class="material-icons-round control-icon">sort</span>
+                    <label for="sort-select">Sort By:</label>
+                    <select id="sort-select" class="dropdown-filter">
+                        <option value="id-asc">Oldest First</option>
+                        <option value="id-desc">Newest First</option>
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <span class="material-icons-round control-icon">filter_list</span>
+                    <label for="filter-select">Show:</label>
+                    <select id="filter-select" class="dropdown-filter">
+                        <option value="all">All Media</option>
+                        <option value="image">Images Only</option>
+                        <option value="video">Videos Only</option>
+                        <option value="favorite">Favorites</option>
+                    </select>
+                </div>
             </div>
 
             <div id="file-grid" class="grid-container">

@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeSidebarBtn = document.getElementById('close-sidebar');
     const sidebarLinks = document.querySelectorAll('#sidebar-nav a');
     const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+    const filterSelect = document.getElementById('filter-select');
 
     let allFiles = []; 
     let currentFolderId = null; 
@@ -164,8 +166,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function applySortAndFilter(dataset) {
+        let sortedFiltered = [...dataset];
+
+        // 1. Filter Dropdown logic
+        const filterVal = filterSelect ? filterSelect.value : 'all';
+        if (filterVal === 'image') {
+            sortedFiltered = sortedFiltered.filter(item => item.type === 'image');
+        } else if (filterVal === 'video') {
+            sortedFiltered = sortedFiltered.filter(item => item.type === 'video' || item.type === 'youtube');
+        } else if (filterVal === 'favorite') {
+            sortedFiltered = sortedFiltered.filter(item => item.tags && item.tags.includes('favorite'));
+        }
+
+        // 2. Sort Dropdown logic
+        const sortVal = sortSelect ? sortSelect.value : 'id-asc';
+        sortedFiltered.sort((a, b) => {
+            // Always force folders to the top
+            if (a.type === 'folder' && b.type !== 'folder') return -1;
+            if (b.type === 'folder' && a.type !== 'folder') return 1;
+
+            if (sortVal === 'id-asc') return a.id - b.id;
+            if (sortVal === 'id-desc') return b.id - a.id;
+            
+            const nameA = a.name.toLowerCase();
+            const nameB = b.name.toLowerCase();
+            if (sortVal === 'name-asc') return nameA.localeCompare(nameB);
+            if (sortVal === 'name-desc') return nameB.localeCompare(nameA);
+            
+            return 0;
+        });
+
+        return sortedFiltered;
+    }
+
     function resetGridState(newDataset) {
-        currentViewDataset = newDataset;
+        currentViewDataset = applySortAndFilter(newDataset);
         currentPage = 1;
         fileGrid.innerHTML = '';
         initInfiniteScroll();
@@ -188,22 +224,29 @@ document.addEventListener('DOMContentLoaded', () => {
         resetGridState(allFiles.filter(item => item.type === fileType1 || item.type === fileType2));
     }
 
-    // ---- SEARCH LOGIC ----
+    // ---- UNIFIED SEARCH & SORT & FILTER LOGIC ----
     
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = normalizeText(e.target.value);
+    function reapplyCurrentView() {
+        const searchTerm = normalizeText(searchInput.value);
+        let baseItems = currentViewItems();
         
-        if (searchTerm === '') {
-            renderCurrentView();
-            return;
+        if (searchTerm !== '') {
+            const tokens = searchTerm.split(/\s+/).filter(Boolean);
+            renderBreadcrumbs(`Search results for "${searchTerm}"`);
+            baseItems = baseItems.filter((item) => itemMatchesQuery(item, tokens));
+        } else {
+            // Restore breadcrumbs for the active folder or media type
+            if (activeFilter === 'all') renderBreadcrumbs();
+            else if (activeFilter === 'image') renderBreadcrumbs('Photos');
+            else if (activeFilter === 'video') renderBreadcrumbs('Videos');
         }
 
-        const tokens = searchTerm.split(/\s+/).filter(Boolean);
-        renderBreadcrumbs(`Search results for "${searchTerm}"`);
+        resetGridState(baseItems);
+    }
 
-        const searchResults = currentViewItems().filter((item) => itemMatchesQuery(item, tokens));
-        resetGridState(searchResults);
-    });
+    searchInput.addEventListener('input', reapplyCurrentView);
+    if (sortSelect) sortSelect.addEventListener('change', reapplyCurrentView);
+    if (filterSelect) filterSelect.addEventListener('change', reapplyCurrentView);
 
     // ---- CARD CREATION (WITH STAGGERED DELAY) ----
 

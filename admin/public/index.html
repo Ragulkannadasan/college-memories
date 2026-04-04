@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPC Archive - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for Folders -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📁 Admin File Manager</h2>
+            </div>
+            <div class="sidebar-actions">
+                <button id="btn-add-folder" class="btn"><span class="material-icons-round">create_new_folder</span> New Folder</button>
+            </div>
+            <nav id="folder-nav">
+                <a href="#" class="active" data-id="null"><span class="material-icons-round">home</span> Root / Home</a>
+            </nav>
+        </aside>
+
+            <header class="topbar">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <span>Root</span>
+                </div>
+                <div class="actions">
+                    <button class="btn" id="btn-check-dupes" style="margin-right: 15px;"><span class="material-icons-round">rule</span> Check Duplicates</button>
+                    <input type="file" id="file-upload" multiple style="display: none;">
+                    <button class="btn btn-primary" id="btn-upload"><span class="material-icons-round">cloud_upload</span> Upload Media</button>
+                </div>
+            </header>
+
+            <div class="controls-bar">
+                <div class="control-group">
+                    <span class="material-icons-round control-icon">sort</span>
+                    <label for="admin-sort-select">Sort By:</label>
+                    <select id="admin-sort-select" class="dropdown-filter">
+                        <option value="id-asc">Oldest First</option>
+                        <option value="id-desc">Newest First</option>
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <span class="material-icons-round control-icon">filter_list</span>
+                    <label for="admin-filter-select">Show:</label>
+                    <select id="admin-filter-select" class="dropdown-filter">
+                        <option value="all">All Media</option>
+                        <option value="image">Images Only</option>
+                        <option value="video">Videos Only</option>
+                        <option value="favorite">Favorites</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="file-grid" class="grid-container">
+                <!-- Items rendered here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Right-click Context Menu -->
+    <div id="context-menu" class="context-menu">
+        <div class="menu-item" id="menu-rename"><span class="material-icons-round">edit</span> Rename</div>
+        <div class="menu-item" id="menu-copy"><span class="material-icons-round">content_copy</span> Copy to...</div>
+        <div class="menu-item" id="menu-move"><span class="material-icons-round">drive_file_move</span> Move to...</div>
+        <div class="menu-item" id="menu-fav"><span class="material-icons-round">favorite</span> Toggle Favorite</div>
+        <div class="menu-item text-danger" id="menu-delete"><span class="material-icons-round">delete</span> Delete</div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Diagnostic: Duplicates -->
+    <div id="modal-duplicates" class="modal">
+        <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h3><span class="material-icons-round" style="vertical-align:bottom; color: #f59e0b;">warning</span> Duplicate Diagnostic</h3>
+            <div id="duplicates-results" style="margin: 15px 0; font-family: monospace; font-size: 0.9em; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px;">
+                Checking...
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="btn-dupes-close">Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename context -->
+    <div id="modal-rename" class="modal">
+        <div class="modal-content">
+            <h3>Rename Item</h3>
+            <input type="text" id="rename-input" class="modal-input">
+            <div class="modal-actions">
+                <button class="btn" id="btn-rename-cancel">Cancel</button>
+                <button class="btn btn-primary" id="btn-rename-save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Move context -->
+    <div id="modal-move" class="modal">
+        <div class="modal-content">
+            <h3>Move Item</h3>
+            <select id="move-select" class="modal-input">
+                <option value="null">Root / Home</option>
+                <!-- populated dynamically -->
+            </select>
+            <div class="modal-actions">
+                <button class="btn" id="btn-move-cancel">Cancel</button>
+                <button class="btn btn-primary" id="btn-move-save">Move</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copy context -->
+    <div id="modal-copy" class="modal">
+        <div class="modal-content">
+            <h3>Copy Item To...</h3>
+            <select id="copy-select" class="modal-input">
+                <option value="null">Root / Home</option>
+                <!-- populated dynamically -->
+            </select>
+            <div class="modal-actions">
+                <button class="btn" id="btn-copy-cancel">Cancel</button>
+                <button class="btn btn-primary" id="btn-copy-save">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Action successful</div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

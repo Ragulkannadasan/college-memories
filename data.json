@@ -26,12 +26,41 @@
     ]
   },
   {
+    "id": 2063,
+    "name": "BCA",
+    "type": "folder",
+    "parentId": null,
+    "url": null,
+    "downloadUrl": null
+  },
+  {
+    "id": 2065,
+    "name": "img_0277.jpeg",
+    "displayName": "img_0268.jpeg",
+    "type": "image",
+    "parentId": 2063,
+    "url": "./data/img_0277.jpeg",
+    "downloadUrl": "./data/img_0277.jpeg"
+  },
+  {
+    "id": 2064,
+    "name": "img_0276.jpeg",
+    "displayName": "img_0258.jpeg",
+    "type": "image",
+    "parentId": 2063,
+    "url": "./data/img_0276.jpeg",
+    "downloadUrl": "./data/img_0276.jpeg"
+  },
+  {
     "id": 2041,
     "name": "img_0258.jpeg",
     "type": "image",
     "parentId": null,
     "url": "./data/img_0258.jpeg",
-    "downloadUrl": "./data/img_0258.jpeg"
+    "downloadUrl": "./data/img_0258.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2042,
@@ -55,7 +84,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0261.jpeg",
-    "downloadUrl": "./data/img_0261.jpeg"
+    "downloadUrl": "./data/img_0261.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2045,
@@ -63,7 +95,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0262.jpeg",
-    "downloadUrl": "./data/img_0262.jpeg"
+    "downloadUrl": "./data/img_0262.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2046,
@@ -71,7 +106,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0263.jpeg",
-    "downloadUrl": "./data/img_0263.jpeg"
+    "downloadUrl": "./data/img_0263.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2047,
@@ -87,7 +125,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0265.jpeg",
-    "downloadUrl": "./data/img_0265.jpeg"
+    "downloadUrl": "./data/img_0265.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2049,
@@ -95,7 +136,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0266.jpeg",
-    "downloadUrl": "./data/img_0266.jpeg"
+    "downloadUrl": "./data/img_0266.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2050,
@@ -103,7 +147,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0267.jpeg",
-    "downloadUrl": "./data/img_0267.jpeg"
+    "downloadUrl": "./data/img_0267.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2051,
@@ -127,7 +174,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0270.jpeg",
-    "downloadUrl": "./data/img_0270.jpeg"
+    "downloadUrl": "./data/img_0270.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 2054,
@@ -416,7 +466,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0231.jpeg",
-    "downloadUrl": "./data/img_0231.jpeg"
+    "downloadUrl": "./data/img_0231.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1028,
@@ -424,7 +477,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0230.jpeg",
-    "downloadUrl": "./data/img_0230.jpeg"
+    "downloadUrl": "./data/img_0230.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1029,
@@ -544,7 +600,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0213.jpeg",
-    "downloadUrl": "./data/img_0213.jpeg"
+    "downloadUrl": "./data/img_0213.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1046,
@@ -552,7 +611,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0212.jpeg",
-    "downloadUrl": "./data/img_0212.jpeg"
+    "downloadUrl": "./data/img_0212.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1047,
@@ -560,7 +622,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0211.jpeg",
-    "downloadUrl": "./data/img_0211.jpeg"
+    "downloadUrl": "./data/img_0211.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1048,
@@ -576,7 +641,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0209.jpeg",
-    "downloadUrl": "./data/img_0209.jpeg"
+    "downloadUrl": "./data/img_0209.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1050,
@@ -720,7 +788,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0191.jpeg",
-    "downloadUrl": "./data/img_0191.jpeg"
+    "downloadUrl": "./data/img_0191.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1068,
@@ -736,7 +807,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0189.jpeg",
-    "downloadUrl": "./data/img_0189.jpeg"
+    "downloadUrl": "./data/img_0189.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1070,
@@ -776,7 +850,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0184.jpeg",
-    "downloadUrl": "./data/img_0184.jpeg"
+    "downloadUrl": "./data/img_0184.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1075,
@@ -792,7 +869,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0182.jpeg",
-    "downloadUrl": "./data/img_0182.jpeg"
+    "downloadUrl": "./data/img_0182.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1077,
@@ -928,7 +1008,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0165.jpeg",
-    "downloadUrl": "./data/img_0165.jpeg"
+    "downloadUrl": "./data/img_0165.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1094,
@@ -960,7 +1043,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0161.jpeg",
-    "downloadUrl": "./data/img_0161.jpeg"
+    "downloadUrl": "./data/img_0161.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1098,
@@ -1032,7 +1118,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0152.jpeg",
-    "downloadUrl": "./data/img_0152.jpeg"
+    "downloadUrl": "./data/img_0152.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1107,
@@ -1048,7 +1137,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0150.jpeg",
-    "downloadUrl": "./data/img_0150.jpeg"
+    "downloadUrl": "./data/img_0150.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1109,
@@ -1472,7 +1564,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0097.jpeg",
-    "downloadUrl": "./data/img_0097.jpeg"
+    "downloadUrl": "./data/img_0097.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1162,
@@ -1480,7 +1575,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0096.jpeg",
-    "downloadUrl": "./data/img_0096.jpeg"
+    "downloadUrl": "./data/img_0096.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1163,
@@ -1488,7 +1586,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0095.jpeg",
-    "downloadUrl": "./data/img_0095.jpeg"
+    "downloadUrl": "./data/img_0095.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1164,
@@ -1504,7 +1605,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0093.jpeg",
-    "downloadUrl": "./data/img_0093.jpeg"
+    "downloadUrl": "./data/img_0093.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1166,
@@ -1512,7 +1616,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0092.jpeg",
-    "downloadUrl": "./data/img_0092.jpeg"
+    "downloadUrl": "./data/img_0092.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1167,
@@ -1520,7 +1627,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0091.jpeg",
-    "downloadUrl": "./data/img_0091.jpeg"
+    "downloadUrl": "./data/img_0091.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1168,
@@ -1528,7 +1638,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0090.jpeg",
-    "downloadUrl": "./data/img_0090.jpeg"
+    "downloadUrl": "./data/img_0090.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1169,
@@ -1536,7 +1649,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0089.jpeg",
-    "downloadUrl": "./data/img_0089.jpeg"
+    "downloadUrl": "./data/img_0089.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1170,
@@ -1552,7 +1668,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0087.jpeg",
-    "downloadUrl": "./data/img_0087.jpeg"
+    "downloadUrl": "./data/img_0087.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1172,
@@ -1568,7 +1687,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0085.jpeg",
-    "downloadUrl": "./data/img_0085.jpeg"
+    "downloadUrl": "./data/img_0085.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1174,
@@ -1576,7 +1698,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0084.jpeg",
-    "downloadUrl": "./data/img_0084.jpeg"
+    "downloadUrl": "./data/img_0084.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1175,
@@ -1584,7 +1709,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0083.jpeg",
-    "downloadUrl": "./data/img_0083.jpeg"
+    "downloadUrl": "./data/img_0083.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1176,
@@ -1712,7 +1840,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0067.jpeg",
-    "downloadUrl": "./data/img_0067.jpeg"
+    "downloadUrl": "./data/img_0067.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1192,
@@ -1792,7 +1923,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0057.jpeg",
-    "downloadUrl": "./data/img_0057.jpeg"
+    "downloadUrl": "./data/img_0057.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1202,
@@ -1976,7 +2110,10 @@
     "type": "image",
     "parentId": null,
     "url": "./data/img_0034.jpeg",
-    "downloadUrl": "./data/img_0034.jpeg"
+    "downloadUrl": "./data/img_0034.jpeg",
+    "tags": [
+      "favorite"
+    ]
   },
   {
     "id": 1225,

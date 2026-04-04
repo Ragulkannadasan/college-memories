@@ -8,3 +8,13 @@ uploads/
 # OS Generated Files
 .DS_Store
 Thumbs.db
+
+# Temporary Developer Helper Scripts
+check-duplicates.js
+clean-data.js
+
+# Backup files
+*.bak
+
+# Environment variables (Safe practice for Node.js backends)
+.env
