@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxYoutube = document.getElementById('lightbox-youtube');
     const lightboxDownload = document.getElementById('lightbox-download');
     const closeBtn = document.getElementById('close-lightbox');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
 
     // Sidebar & Topbar Elements
     const sidebar = document.getElementById('sidebar');
@@ -363,7 +365,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---- LIGHTBOX & SMART DOWNLOAD LOGIC ----
     
-    function openLightbox(item) {
+    let currentLightboxMedia = [];
+    let currentLightboxIndex = -1;
+
+    function updateLightboxNavVisibility() {
+        if (currentLightboxIndex <= 0) {
+            lightboxPrev.style.display = 'none';
+        } else {
+            lightboxPrev.style.display = 'block';
+        }
+
+        if (currentLightboxIndex >= currentLightboxMedia.length - 1 || currentLightboxIndex === -1) {
+            lightboxNext.style.display = 'none';
+        } else {
+            lightboxNext.style.display = 'block';
+        }
+    }
+
+    function navigateLightbox(direction) {
+        if (direction === -1 && currentLightboxIndex > 0) {
+            currentLightboxIndex--;
+        } else if (direction === 1 && currentLightboxIndex < currentLightboxMedia.length - 1) {
+            currentLightboxIndex++;
+        } else {
+            return; // Out of bounds
+        }
+        
+        lightboxVideo.pause();
+        lightboxVideo.src = '';
+        lightboxYoutube.src = '';
+        
+        const nextItem = currentLightboxMedia[currentLightboxIndex];
+        displayLightboxItem(nextItem);
+        updateLightboxNavVisibility();
+    }
+
+    function displayLightboxItem(item) {
         // Reset displays
         lightboxImg.style.display = 'none';
         lightboxVideo.style.display = 'none';
@@ -396,6 +433,14 @@ document.addEventListener('DOMContentLoaded', () => {
             lightboxYoutube.src = item.url.includes('?') ? item.url + '&autoplay=1' : item.url + '?autoplay=1';
             lightboxYoutube.style.display = 'block';
         }
+    }
+
+    function openLightbox(item) {
+        currentLightboxMedia = currentViewDataset.filter(i => i.type !== 'folder');
+        currentLightboxIndex = currentLightboxMedia.findIndex(i => i.id === item.id);
+        
+        displayLightboxItem(item);
+        updateLightboxNavVisibility();
         
         lightbox.classList.add('active');
     }
@@ -505,6 +550,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     closeBtn.addEventListener('click', closeLightbox);
+
+    lightboxPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateLightbox(-1);
+    });
+
+    lightboxNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigateLightbox(1);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+        if (e.key === 'Escape') closeLightbox();
+    });
 
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) {
