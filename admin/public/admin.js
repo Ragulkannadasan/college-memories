@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (filterVal === 'video') itemsToView = itemsToView.filter(item => item.type === 'video' || item.type === 'youtube');
         else if (filterVal === 'favorite') itemsToView = itemsToView.filter(item => item.tags && item.tags.includes('favorite'));
 
-        const sortVal = adminSortSelect ? adminSortSelect.value : 'id-asc';
+        const sortVal = adminSortSelect ? adminSortSelect.value : 'id-desc';
         itemsToView.sort((a, b) => {
             if (a.type === 'folder' && b.type !== 'folder') return -1;
             if (b.type === 'folder' && a.type !== 'folder') return 1;

@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 2. Sort Dropdown logic
-        const sortVal = sortSelect ? sortSelect.value : 'id-asc';
+        const sortVal = sortSelect ? sortSelect.value : 'id-desc';
         sortedFiltered.sort((a, b) => {
             // Always force folders to the top
             if (a.type === 'folder' && b.type !== 'folder') return -1;
